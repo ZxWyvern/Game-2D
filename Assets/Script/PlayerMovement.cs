@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float speed;
+    [SerializeField] private float fallMultiplier = 2.5f; // Multiplier for faster falling
     private Rigidbody2D rb;
     private Animator animator;
     public float jumpForce = 10f;     // Initial jump force
@@ -21,7 +22,16 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
-        rb.linearVelocity = new Vector2(horizontalInput * speed, rb.linearVelocity.y);
+        Vector2 velocity = rb.linearVelocity;
+        velocity.x = horizontalInput * speed;
+
+        // Apply fall multiplier for faster falling
+        if (velocity.y < 0)
+        {
+            velocity.y += Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
+        }
+
+        rb.linearVelocity = velocity;
 
         // Adjust player orientation
         if (Input.GetKeyDown(KeyCode.A))
