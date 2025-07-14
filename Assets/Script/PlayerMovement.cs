@@ -52,7 +52,6 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
             isJumping = true;
-            debug.log("Player Jump")
         }
 
         // Handle jump cut (release jump button mid-air)
